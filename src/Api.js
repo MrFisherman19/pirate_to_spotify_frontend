@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const SERVER_URL = 'http://localhost:8080'
+const SERVER_URL = 'http://localtospotifyapp-env.eba-pthqhy3j.eu-central-1.elasticbeanstalk.com'
 
 const instance = axios.create({
     baseURL: SERVER_URL,
@@ -21,6 +21,12 @@ export default{
         return response.data;
     }),
     addTracksToPlaylist:(playlistId, jsonObject, tokenValue)=>instance.post('/addTracksToPlaylist?playlistId='+playlistId, jsonObject, {headers: {
+        'Content-Type':'application/json',
+        'Authorization': tokenValue
+    }}).then(response=>{
+        return response.status;
+    }),
+    setPlaylistImage:(playlistId, jsonObject, tokenValue)=>instance.put('/setPlaylistImage?playlistId='+playlistId, jsonObject, {headers: {
         'Content-Type':'application/json',
         'Authorization': tokenValue
     }}).then(response=>{

@@ -4,12 +4,12 @@
         <v-layout>
             <v-row justify="center" no-gutters>
             <v-col cols="12" lg="5">              
-                <v-card class="ma-2" >
+                <v-card class="ma-2">
                 <v-card-title>Create your playlist!</v-card-title>
                 <v-card-subtitle>Choose your options:</v-card-subtitle>
                 <v-divider></v-divider>
                     <v-flex>
-                        <PlaylistImagePicker></PlaylistImagePicker>
+                        <PlaylistImagePicker :defaultImage="playlistImage" :playlistImage.sync="playlistImage"></PlaylistImagePicker>
                     </v-flex>
                     <v-flex>
                         <PlaylistDataFields :playlistName.sync="playlistName" :playlistDescription.sync="playlistDescription"></PlaylistDataFields>         
@@ -65,6 +65,7 @@ data: function () {
         playlistDescription:'',
         finalStatus:'',
         isPublic: 'true',
+        playlistImage: 'https://i.imgur.com/IuGNdBP.jpg',
         tokenValue: '',
         actualCode: '',
     }
@@ -100,11 +101,13 @@ methods: {
                 this.finalStatus = data;
                 this.endCreatingProcess();
             })
+            api.setPlaylistImage(data.id, JSON.stringify({url: this.playlistImage}), this.tokenValue);
         })
+        
     },
     authorize:function() {
         sessionStorage.setItem("reloading","true");
-        window.location.href="http://localhost:8080/auth"
+        window.location.href="http://localtospotifyapp-env.eba-pthqhy3j.eu-central-1.elasticbeanstalk.com/auth"
     },
     endCreatingProcess:function(){
         this.showDialog();

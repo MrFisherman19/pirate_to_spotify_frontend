@@ -6,7 +6,7 @@
         <v-card-subtitle>Are these the tracks of your choice?</v-card-subtitle>
         <v-divider></v-divider>
         <v-list>
-            <v-list-item outlined v-for="(item,index) in visiblePages" :key="item.index">
+            <v-list-item outlined v-for="item in visiblePages" :key="item.id">
                 <v-list-item-avatar><v-img :src="item.imageUrl"></v-img></v-list-item-avatar>
                 <v-list-item-content>
                     <v-list-item-title>
@@ -16,12 +16,12 @@
                         <a :href="item.mainAuthor.uri">{{ item.mainAuthor.name }}</a>
                     </v-list-item-subtitle>
                 </v-list-item-content>
+                <vuetify-audio :file="item.previewUrl" :flat='true'></vuetify-audio>
                 <v-list-item-action>
-                    <v-icon v-on:click="removeTrack(index)">mdi-close</v-icon>
+                    <v-icon v-on:click="removeTrack(item.id)">mdi-close</v-icon>
                 </v-list-item-action>
             </v-list-item>
         </v-list>
-        
         <v-card-actions>
             <v-row>
                 <v-col cols="12" lg="12">
@@ -40,15 +40,6 @@
         </v-card-actions>
         <v-divider></v-divider>
         <template>
-            <div class="text-center">
-                <v-pagination color="#23D061"
-                    v-model="page"
-                    :length="Math.ceil(this.list.length/this.perPage)"
-                    :disabled="visiblePages.length == 0">
-                </v-pagination>
-            </div>
-        </template>
-        <template>
             <v-dialog v-model="shouldShowDialog" persistent width="300">
                 <v-card color="#23D061">
                     <v-flex>
@@ -62,9 +53,13 @@
     </v-card>
 </template>
 <script>
+import VuetifyAudio from 'vuetify-audio';
 export default {
     name:'TrackList',
     props:['list','shouldShowLoadingDialog','isPlaylistNameEmpty'],
+    components: {
+        VuetifyAudio,
+    },
     data: function() {
         return {
             page: 1,
@@ -73,10 +68,8 @@ export default {
     },
     computed: {
         visiblePages() {
-            var trackDetails = this.list;
-            trackDetails = this.list.slice((this.page - 1) * this.perPage, this.page * this.perPage);
             this.$emit('update:listLoadingShow', false);
-            return trackDetails;
+            return this.list;
         },
         shouldShowDialog: {
             get:function() {
@@ -85,7 +78,8 @@ export default {
         }
     },
     methods: {
-        removeTrack(index) {
+        removeTrack(id) {
+            var index = this.list.findIndex(item=>item.id === id);
             this.list.splice(index, 1);
         },
         createPlaylist:function() {
@@ -97,5 +91,13 @@ export default {
 <style scoped>
     a {
         text-decoration: none;
+    }
+    audio {
+        height:30px;
+        border-radius: 26px;
+        outline: none;
+    }
+    audio:hover {
+        box-shadow: 0 0 0pt 1pt #23D061;
     }
 </style>
