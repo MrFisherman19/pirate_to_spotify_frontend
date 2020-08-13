@@ -2,6 +2,13 @@
 
 Local to Spotify is a web application that consumes the spotify api to create playlists based on the user's local files. Logging in takes place by connecting to the backend that contains all the necessary data.
 
+Video of the application: [Link to youtube](https://youtu.be/F7nhoPxRYs0)
+
+Then result: 
+
+![Image of Yaktocat](https://i.imgur.com/DTXMp5D.png)
+
+
 # How to use application / simple manual:
 
 1. Login to the app via your Spotify account
