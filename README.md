@@ -1,4 +1,4 @@
-# pirate_to_spotify_front
+# Local to Spotify - frontend
 
 Local to Spotify is a web application that consumes the spotify api to create playlists based on the user's local files. Logging in takes place by connecting to the backend that contains all the necessary data.
 
